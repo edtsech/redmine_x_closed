@@ -18,8 +18,15 @@ module IssueClosed
     def self.included base
       base.send :include, InstanceMethods
       base.class_eval do
+        alias _list list
+        
         def index
           list
+          render :template => 'issue_statuses/issue_closed_list' #'list' unless request.xhr?
+        end
+        
+        def list
+          _list
           render :template => 'issue_statuses/issue_closed_list' #'list' unless request.xhr?
         end
       end
