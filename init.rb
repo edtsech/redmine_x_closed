@@ -1,4 +1,5 @@
 require 'redmine'
+require File.dirname(__FILE__) + '/lib/issue_closed.rb'
 
 Redmine::Plugin.register :redmine_issue_closed do
   name 'Redmine Issue Closed plugin'
