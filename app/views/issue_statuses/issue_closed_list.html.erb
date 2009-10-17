@@ -38,31 +38,24 @@
 
 <fieldset class="box">
   <legend >Issue Closed Plugin Settings</legend>
-  <form>
-  <table>
-  <tr>
-  <td>  
-  <label for="issue-status-closed">Select closed issue status</label>
-  </td>
-  <td>
-  <select id="issue-status-closed">
-    <% for status in @issue_statuses %>
-      <option value="option1"><%= status.name %></option>
-    <% end %>
-  </select>
-  </td>
-  </tr>
-  <td>
-  <label for="issue-status-closed">Select resolved issue status</label>
-  </td>
-  <td>
-  <select id="issue-status-closed">
-    <% for status in @issue_statuses %>
-      <option value="option1"><%= status.name %></option>
-    <% end %>
-  </select>
-  </td>
-  </table>
-  <input type="submit"></submit>
-  </form>
+  <% form_for :issue_statuses, :url => { :action => :update_issue_closed } do |form| %>
+    <label for="issue-status-resolved">Select resolved issue status</label>
+    <select id="issue-status-resolved" name="resolved">
+      <% for status in @issue_statuses %>
+        <option value="<%= status.id %>" <%= status.state == false ? 'selected="selected"' : '' %>><%= status.name %></option>
+      <% end %>
+    </select>
+    <label for="issue-status-closed">Select closed issue status</label>
+    <select id="issue-status-closed" name="closed">
+      <% for status in @issue_statuses %>
+        <option value="<%= status.id %>" <%= status.state ? 'selected="selected"' : '' %>><%= status.name %></option>
+      <% end %>
+    </select>
+    <input type="submit"></submit>
+  <% end %>
 </fieldset>
+<style type="text/css" media="screen">
+  select#issue-status-resolved, select#issue-status-closed{
+    margin-right: 20px;
+  }
+</style>
