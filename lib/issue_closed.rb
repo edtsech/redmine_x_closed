@@ -68,6 +68,12 @@ module IssueClosed
       end
     end    
   end
+  
+  module Issue
+    base.class_eval do
+      
+    end
+  end
 end
 
 #class IssueStatus
