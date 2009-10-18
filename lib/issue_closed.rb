@@ -1,15 +1,13 @@
 module IssueClosed
-  #module IssueStatus
-  #  def self.closed
-  #    find(:first, :conditions =>["is_closed=?", true], :order => 'position').id
-  #  end
-  #end
- 
-  #module IssueResolved
-  #  def resolved?
-  #    self.status.is_resolved?
-  #  end
-  #end
+  class DelayedClose < Struct.new(:issue_id)
+    def perform
+      issue = Issue.find issue_id
+      if issue.status.state == false
+        issue.status = IssueStatus.find_by_state true
+        issue.save
+      end
+    end    
+  end
       
   module IssueStatusesController
     def self.included base
@@ -62,17 +60,11 @@ module IssueClosed
             status_before_update != @issue.status and \
             @issue.status.state == false
             
-            ###
+            Delayed::Job.enqueue DelayedClose.new(@issue.id), 0, 3.minutes.from_now
           end
         end
       end
     end    
-  end
-  
-  module Issue
-    base.class_eval do
-      
-    end
   end
 end
 
