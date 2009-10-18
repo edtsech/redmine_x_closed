@@ -60,30 +60,13 @@ module IssueClosed
             status_before_update != @issue.status and \
             @issue.status.state == false
             
-            Delayed::Job.enqueue DelayedClose.new(@issue.id), 0, 3.minutes.from_now
+            Delayed::Job.enqueue DelayedClose.new(@issue.id), 0, 7.days.from_now
           end
         end
       end
     end    
   end
 end
-
-#class IssueStatus
-#  include IssueClosed::IssueStatus
-#end
-
-#class Issue
-#  include IssueResolved::Issue
-  
-#  alias _after_save after_save
-  
-#  def after_save
-#    _after_save
-#    if self.resolved?  
-#      Delayed::Job.enqueue(QuestionJob.new(self))
-#    end
-#  end
-#end
 
 require 'dispatcher'
   Dispatcher.to_prepare do 
