@@ -1,6 +1,6 @@
-= issue_closed
-
-To working plugin Redmine Issue Closed you need to install and start delayed_job. Delayed job is plugin for background processes.
+= Issue_closed
+  
+  To working plugin Redmine Issue Closed you need to install and start delayed_job. Delayed job is plugin for background processes.
 
 = Installing delayed_job:
  
