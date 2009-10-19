@@ -39,13 +39,13 @@
 <fieldset class="box">
   <legend >Issue Closed Plugin Settings</legend>
   <% form_for :issue_statuses, :url => { :action => :update_issue_closed } do |form| %>
-    <label for="issue-status-resolved">Select resolved issue status</label>
+    <label for="issue-status-resolved">Select "resolved" issue status</label>
     <select id="issue-status-resolved" name="resolved">
       <% for status in @issue_statuses %>
         <option value="<%= status.id %>" <%= status.state == false ? 'selected="selected"' : '' %>><%= status.name %></option>
       <% end %>
     </select>
-    <label for="issue-status-closed">Select closed issue status</label>
+    <label for="issue-status-closed">Select "closed" issue status</label>
     <select id="issue-status-closed" name="closed">
       <% for status in @issue_statuses %>
         <option value="<%= status.id %>" <%= status.state ? 'selected="selected"' : '' %>><%= status.name %></option>
