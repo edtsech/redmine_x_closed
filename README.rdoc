@@ -1,8 +1,9 @@
 = Issue_closed
   
-  To working plugin Redmine Issue Closed you need to install and start delayed_job. Delayed job is plugin for background processes.
+== Installing delayed_job:
 
-= Installing delayed_job:
+To working plugin Redmine Issue Closed you need to install and start delayed_job.
+Delayed job is plugin for background processes.
  
   1) sudo gem install delayed_job
 
@@ -10,13 +11,21 @@
   
   3) script/generate delayed_job
      rake db:migrate
+
+  4) create config/initializers/delayed_job_config.rb and add inside this code:
+
+     Delayed::Job.destroy_failed_jobs = false
+	 silence_warnings do
+	   Delayed::Job.const_set("MAX_ATTEMPTS", 3)
+	   Delayed::Job.const_set("MAX_RUN_TIME", 7.days)
+	 end
   
-  4) rake jobs:work -> for starting background processes
+  5) rake jobs:work -> for starting background processes
 
   If'll have some problems you would get information by this link:
     http://github.com/collectiveidea/delayed_job
 
-= Installing Redmine Issues Closed:
+== Installing Redmine Issues Closed:
 
   1) script/plugin install git://github.com/edtsech/redmine_issue_closed.git
 
@@ -27,6 +36,6 @@
   
   4) use!
   
-= For turn off Redmine Issue Closed Plugin:
+== For turn off Redmine Issue Closed Plugin:
    
   project/settings/ > Modules
