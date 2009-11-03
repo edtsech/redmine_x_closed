@@ -27,7 +27,7 @@ Delayed job is plugin for background processes.
 
 == Installing Redmine Issues Closed:
 
-  1) script/plugin install git://github.com/edtsech/redmine_issue_closed.git
+  1) script/plugin install git://github.com/edtsech/redmine_x_closed.git
 
   2) rake db:migrate_plugins
   
