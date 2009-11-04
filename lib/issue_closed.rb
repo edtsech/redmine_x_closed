@@ -60,7 +60,11 @@ module IssueClosed
             status_before_update != @issue.status and \
             @issue.status.state == false
             
-            Delayed::Job.enqueue DelayedClose.new(@issue.id), 0, 7.days.from_now
+            Delayed::Job.destroy(@issue.delayed_job_id) unless @issue.delayed_job_id == nil
+            job = Delayed::Job.enqueue DelayedClose.new(@issue.id), 0, 7.days.from_now
+            
+            @issue.delayed_job_id = job.id
+            @issue.save
           end
         end
       end
