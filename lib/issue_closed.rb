@@ -57,14 +57,20 @@ module IssueClosed
           if request.post? and \
             not (@issue.project.enabled_modules.detect { |enabled_module| enabled_module.name == 
               'issue_closed' }) == nil and \
-            status_before_update != @issue.status and \
-            @issue.status.state == false
+            status_before_update != @issue.status
             
-            Delayed::Job.destroy(@issue.delayed_job_id) unless @issue.delayed_job_id == nil
-            job = Delayed::Job.enqueue DelayedClose.new(@issue.id), 0, 7.days.from_now
+            to_destroy_id = @issue.delayed_job_id
+            delayed_job_id = nil
             
-            @issue.delayed_job_id = job.id
-            @issue.save
+            if @issue.status.state == false
+              job = Delayed::Job.enqueue DelayedClose.new(@issue.id), 0, 7.days.from_now
+              delayed_job_id = job.id
+            end
+              
+            @issue.delayed_job_id = delayed_job_id            
+            @issue.save            
+            Delayed::Job.destroy to_destroy_id unless to_destroy_id == nil
+            
           end
         end
       end
