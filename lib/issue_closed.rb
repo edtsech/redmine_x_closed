@@ -51,6 +51,8 @@ module IssueClosed
       base.class_eval do
         after_destroy :destroy_permission
         
+        private
+        
         def destroy_permission 
           debugger
           Delayed::Job.destroy delayed_job_id
