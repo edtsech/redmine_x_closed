@@ -45,6 +45,19 @@ module IssueClosed
       end
    end
   end
+  
+  module MixinIssue 
+    def self.included base
+      base.class_eval do
+        after_destroy :destroy_permission
+        
+        def destroy_permission 
+          debugger
+          Delayed::Job.destroy delayed_job_id
+        end
+      end
+    end
+  end
 
   module IssuesController 
     def self.included base
@@ -88,4 +101,5 @@ require 'dispatcher'
 
   IssueStatusesController.send :include, IssueClosed::IssueStatusesController
   IssuesController.send :include, IssueClosed::IssuesController
+  Issue.send :include, IssueClosed::MixinIssue
 end
