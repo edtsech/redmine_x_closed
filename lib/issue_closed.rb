@@ -53,8 +53,7 @@ module IssueClosed
         
         private
         
-        def destroy_permission 
-          debugger
+        def destroy_permission
           Delayed::Job.destroy delayed_job_id
         end
       end
