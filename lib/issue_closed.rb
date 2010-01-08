@@ -49,12 +49,12 @@ module IssueClosed
   module MixinIssue 
     def self.included base
       base.class_eval do
-        after_destroy :destroy_permission
+        after_destroy :destroy_issue
         
         private
         
-        def destroy_permission
-          Delayed::Job.destroy delayed_job_id
+        def destroy_issue
+          Delayed::Job.destroy(delayed_job_id) if Delayed::Job.find_by_id(delayed_job_id) != nil
         end
       end
     end
@@ -82,7 +82,7 @@ module IssueClosed
             end
               
             @issue.delayed_job_id = delayed_job_id            
-            @issue.save            
+            #@issue.save            
             Delayed::Job.destroy to_destroy_id unless to_destroy_id == nil
             
           end
