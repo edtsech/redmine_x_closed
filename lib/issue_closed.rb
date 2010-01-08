@@ -82,7 +82,7 @@ module IssueClosed
             end
               
             @issue.delayed_job_id = delayed_job_id            
-            #@issue.save            
+            @issue.save            
             Delayed::Job.destroy to_destroy_id unless to_destroy_id == nil
             
           end
