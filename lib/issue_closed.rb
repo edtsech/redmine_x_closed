@@ -80,9 +80,10 @@ module IssueClosed
               job = Delayed::Job.enqueue DelayedClose.new(@issue.id), 0, 7.days.from_now
               delayed_job_id = job.id
             end
-              
-            @issue.delayed_job_id = delayed_job_id            
-            @issue.save            
+            
+            @issue.delayed_job_id = delayed_job_id
+            @issue.send :update_without_callbacks
+            
             Delayed::Job.destroy to_destroy_id unless to_destroy_id == nil
             
           end
