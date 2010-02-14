@@ -13,14 +13,10 @@ module IssueClosed
     def self.included base
       base.class_eval do
         
-        alias _list list
-
-        def index
-          list
-        end
+        alias_method :_index, :index unless method_defined? :_index
         
-        def list
-          collect_issue_statuses
+        def index
+          _index
           render :template => 'issue_statuses/issue_closed_list'
         end
         
@@ -36,11 +32,7 @@ module IssueClosed
             end
             status.save!
           end
-          redirect_to :action => :list
-        end
-      protected
-        def collect_issue_statuses
-          @issue_status_pages, @issue_statuses = paginate :issue_statuses, :per_page => 25, :order => "position"
+          redirect_to :action => :index
         end
       end
    end
@@ -63,7 +55,7 @@ module IssueClosed
   module IssuesController 
     def self.included base
       base.class_eval do
-        alias _edit edit
+        alias_method :_edit, :edit unless method_defined? :_edit
         
         def edit
           status_before_update = @issue.status
