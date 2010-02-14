@@ -40,7 +40,7 @@ Delayed job is plugin for background processes.
   
   2) Download "Redmineight" archive
   
-  3) Unpacking archive to vendor/plugins
+  3) Unpack archive to vendor/plugins
   
   4) rake db:migrate_plugins
   
