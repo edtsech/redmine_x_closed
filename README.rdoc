@@ -47,6 +47,6 @@ Delayed job is plugin for background processes.
   5) go to admin -> issue_statuses
      Set up plugin (select "resolved" & "closed" statuses) 
 
-== For turn off Redmine Issue Closed Plugin:
+== To turn off Redmine Issue Closed Plugin:
    
   project/settings/ > Modules
