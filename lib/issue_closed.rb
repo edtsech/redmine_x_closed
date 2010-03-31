@@ -16,8 +16,8 @@ module IssueClosed
         alias_method :_index, :index unless method_defined? :_index
         
         def index
-          _index
-          render :template => 'issue_statuses/issue_closed_list'
+          list
+          render :template => 'issue_statuses/issue_closed_list' unless request.xhr?
         end
         
         def update_issue_closed
