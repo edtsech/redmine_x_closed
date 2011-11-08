@@ -16,7 +16,7 @@ module IssueClosed
         alias_method :_index, :index unless method_defined? :_index
         
         def index
-          list
+          _index
           render :template => 'issue_statuses/issue_closed_list' unless request.xhr?
         end
         
@@ -55,16 +55,15 @@ module IssueClosed
   module IssuesController 
     def self.included base
       base.class_eval do
-        alias_method :_edit, :edit unless method_defined? :_edit
+        alias_method :_update, :update unless method_defined? :_edit
         
-        def edit
+        def update
           status_before_update = @issue.status
-          _edit
-          if request.post? and \
-            not (@issue.project.enabled_modules.detect { |enabled_module| enabled_module.name == 
-              'issue_closed' }) == nil and \
+          _update
+          
+          if not (@issue.project.enabled_modules.detect { |enabled_module| enabled_module.name == 'issue_closed' }) == nil and \
             status_before_update != @issue.status
-            
+
             to_destroy_id = @issue.delayed_job_id
             delayed_job_id = nil
             
